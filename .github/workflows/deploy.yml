@@ -1,0 +1,22 @@
+name: deploy subversions 
+
+on:
+  push:
+    branches:
+      - main 
+
+permissions: write-all
+
+env:
+  username: "githubrunner"
+  repo: git@github.com:${{ github.repository }}
+
+jobs:
+  deploy-subversions:
+    concurrency:
+      group: deploy-subversions-${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    uses: Odoo-Ninjas/git-workflows/.github/workflows/deploy_to_subversions.yml@v5
+    secrets: inherit
+    with:
+      branches: "15.0:main 16.0:main 17.0:main"
