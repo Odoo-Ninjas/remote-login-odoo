@@ -37,4 +37,3 @@ class IrHttp(models.AbstractModel):
 
         res = super()._authenticate(endpoint)
         return res
-
