@@ -1,3 +1,4 @@
+import uuid
 import time
 from odoo import _, api, fields, models, SUPERUSER_ID
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
