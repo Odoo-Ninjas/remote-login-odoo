@@ -9,13 +9,12 @@ class IrHttp(models.AbstractModel):
     _inherit = "ir.http"
     _description = "HTTP Routing"
 
-    @classmethod                                                                      
-    def _postprocess_args(cls, arguments, rule):
+    @classmethod
+    def _dispatch(cls):
         if request.httprequest.session.redirect_to_web == "1":
             request.httprequest.session.redirect_to_web = None
             return request.redirect('/web', 301)
-
-        res = super()._postprocess_args(arguments, rule)
+        res = super()._dispatch()
         return res
 
     @classmethod
@@ -37,10 +36,3 @@ class IrHttp(models.AbstractModel):
 
         res = super()._authenticate(endpoint)
         return res
-
-    @classmethod
-    def _auth_method_remote_key(cls):
-        import pudb
-
-        pudb.set_trace()
-        request.uid = request.session.uid
