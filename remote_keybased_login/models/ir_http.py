@@ -9,7 +9,7 @@ class IrHttp(models.AbstractModel):
     _inherit = "ir.http"
     _description = "HTTP Routing"
 
-    @classmethod
+    @classmethod                                                                      
     def _dispatch(cls, endpoint):
         if request.session.redirect_to_web == "1":
             request.session.redirect_to_web = None
@@ -29,6 +29,7 @@ class IrHttp(models.AbstractModel):
                 request.session.uid = user[0].id
                 session_token = user[0]._compute_session_token(request.session.sid)
                 request.session.session_token = session_token
+                request.env = api.Environment(request.env.cr, user.id, request.env.context)
                 request.session.redirect_to_web = "1"
                 return "remote_key"
             else:
