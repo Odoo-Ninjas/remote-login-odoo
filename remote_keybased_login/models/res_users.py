@@ -12,3 +12,4 @@ class User(models.Model):
         for user in self.search([]):
             if not user.remote_login_key:
                 user.remote_login_key = str(uuid.uuid4())
+                self.env.cr.commit()
