@@ -3,6 +3,5 @@ from . import controllers
 from . import models
 from odoo import SUPERUSER_ID
 
-def post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def post_init_hook(env):
     env['res.users'].set_remote_keys()
