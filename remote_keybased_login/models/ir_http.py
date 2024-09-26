@@ -3,6 +3,7 @@ import time
 from odoo import _, api, fields, models, SUPERUSER_ID
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
 from odoo.http import request
+from werkzeug.utils import redirect
 
 
 class IrHttp(models.AbstractModel):
@@ -10,12 +11,12 @@ class IrHttp(models.AbstractModel):
     _description = "HTTP Routing"
 
     @classmethod                                                                      
-    def _dispatch(cls, endpoint):
+    def _dispatch(cls):
         if request.session.redirect_to_web == "1":
             request.session.redirect_to_web = None
-            return request.redirect('/web', 301)
+            return redirect('/web', 301)
 
-        res = super()._dispatch(endpoint)
+        res = super()._dispatch()
         return res
 
     @classmethod
@@ -30,7 +31,7 @@ class IrHttp(models.AbstractModel):
                 request.session.uid = user[0].id
                 session_token = user[0]._compute_session_token(request.session.sid)
                 request.session.session_token = session_token
-                request.env = api.Environment(request.env.cr, user.id, request.env.context)
+                request.env.user = user
                 request.session.redirect_to_web = "1"
                 return "remote_key"
             else:
