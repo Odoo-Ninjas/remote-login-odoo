@@ -38,10 +38,3 @@ class IrHttp(models.AbstractModel):
 
         res = super()._authenticate(endpoint)
         return res
-
-    @classmethod
-    def _auth_method_remote_key(cls):
-        import pudb
-
-        pudb.set_trace()
-        request.uid = request.session.uid
