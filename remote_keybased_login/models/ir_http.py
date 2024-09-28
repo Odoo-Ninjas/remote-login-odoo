@@ -22,8 +22,7 @@ class IrHttp(models.AbstractModel):
     @classmethod
     def _authenticate(cls, endpoint):
         path = request.httprequest.path
-        print(path)
-        if path.startswith("/web/login") and request.httprequest.values.get("remote_key") or path.startswith("/keylogin"):
+        if path.startswith("/web/login") and request.httprequest.values.get("remote_key"):
             key = request.httprequest.values["remote_key"]
             user = (
                 request.env["res.users"].sudo().search([("remote_login_key", "=", key)])
