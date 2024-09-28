@@ -13,14 +13,16 @@ class IrHttp(models.AbstractModel):
     def _dispatch(cls, endpoint):
         if request.session.redirect_to_web == "1":
             request.session.redirect_to_web = None
-            return request.redirect('/web', 301)
+            return request.redirect("/web", 301)
         res = super()._dispatch(endpoint)
         return res
 
     @classmethod
     def _authenticate(cls, endpoint):
         path = request.httprequest.path
-        if path.startswith("/web/login") and request.httprequest.values.get("remote_key"):
+        if path.startswith("/web/login") and request.httprequest.values.get(
+            "remote_key"
+        ):
             key = request.httprequest.values["remote_key"]
             user = (
                 request.env["res.users"].sudo().search([("remote_login_key", "=", key)])
