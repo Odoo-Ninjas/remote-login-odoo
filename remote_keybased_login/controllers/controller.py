@@ -3,7 +3,6 @@ from odoo import http
 from odoo.http import request
 
 
-breakpoint()
 class RemoteLoginController(http.Controller):
 
     @http.route(["/keylogin", "/en/keylogin"], auth="public", type="http", website=True)
