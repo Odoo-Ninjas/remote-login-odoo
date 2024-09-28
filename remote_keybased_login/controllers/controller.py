@@ -6,7 +6,7 @@ from odoo.http import request
 breakpoint()
 class RemoteLoginController(http.Controller):
 
-    @http.route(["/keylogin", "/en/keylogin"], auth="public", type="http")
+    @http.route(["/keylogin", "/en/keylogin"], auth="public", type="http", website=True)
     def handler(self, **post):
         key=post['remote_key']
         redirect = request.redirect(f"/web/login?remote_key={key}&random={uuid.uuid4()}")
