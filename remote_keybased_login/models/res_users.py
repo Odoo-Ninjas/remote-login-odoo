@@ -9,7 +9,10 @@ class User(models.Model):
 
     @api.model
     def set_remote_keys(self):
-        for user in self.search([]):
-            if not user.remote_login_key:
-                user.remote_login_key = str(uuid.uuid4())
-                self.env.cr.commit()
+        self.env.cr.execute("CREATE EXTENSION IF NOT EXISTS pgcrypto;")
+        self.env.cr.execute("""
+        UPDATE res_users
+        SET remote_login_key = gen_random_uuid()
+        WHERE remote_login_key is null
+        ;
+        """)
