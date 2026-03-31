@@ -11,8 +11,8 @@ class IrHttp(models.AbstractModel):
 
     @classmethod
     def _dispatch(cls, endpoint):
-        if request.session.redirect_to_web == "1":
-            request.session.redirect_to_web = None
+        if request.session.get("redirect_to_web") == "1":
+            request.session.pop("redirect_to_web", None)
             return request.redirect("/web", 301)
         res = super()._dispatch(endpoint)
         return res
@@ -34,7 +34,7 @@ class IrHttp(models.AbstractModel):
                 request.env = api.Environment(
                     request.env.cr, user.id, request.env.context
                 )
-                request.session.redirect_to_web = "1"
+                request.session["redirect_to_web"] = "1"
                 return "remote_key"
             else:
                 time.sleep(20)
