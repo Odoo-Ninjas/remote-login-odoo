@@ -1,6 +1,6 @@
 {
     "name": "remote_keybased_login",
-    "version": "18.0.1.0",
+    "version": "19.0.1.0",
     "author": "Marc Wimmer (marc@zebroo.de)",
     "depends": ["base"],
     "data": [],
