@@ -1,7 +1,5 @@
-import uuid
 import time
-from odoo import _, api, fields, models, SUPERUSER_ID
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
+from odoo import models
 from odoo.http import request
 
 
@@ -13,7 +11,7 @@ class IrHttp(models.AbstractModel):
     def _dispatch(cls):
         if request.httprequest.session.redirect_to_web == "1":
             request.httprequest.session.redirect_to_web = None
-            return request.redirect('/web', 301)
+            return request.redirect("/web", 301)
         res = super()._dispatch()
         return res
 
