@@ -16,3 +16,13 @@ class User(models.Model):
         WHERE remote_login_key is null
         ;
         """)
+
+    @api.model
+    def clear_remote_keys(self):
+        """Wipe all auto-login tokens (e.g. after a restore that carried
+        over keys from the dumped DB's origin). Fresh keys are regenerated
+        lazily by set_remote_keys() on the next login fetch."""
+        self.search([("remote_login_key", "!=", False)]).write(
+            {"remote_login_key": False}
+        )
+        self.env.cr.commit()
