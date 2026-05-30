@@ -1,7 +1,5 @@
-import uuid
 import time
-from odoo import _, api, fields, models, SUPERUSER_ID
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
+from odoo import models
 from odoo.http import request
 from werkzeug.utils import redirect
 
@@ -10,11 +8,11 @@ class IrHttp(models.AbstractModel):
     _inherit = "ir.http"
     _description = "HTTP Routing"
 
-    @classmethod                                                                      
+    @classmethod
     def _dispatch(cls):
         if request.session.redirect_to_web == "1":
             request.session.redirect_to_web = None
-            return redirect('/web', 301)
+            return redirect("/web", 301)
 
         res = super()._dispatch()
         return res
@@ -22,7 +20,9 @@ class IrHttp(models.AbstractModel):
     @classmethod
     def _authenticate(cls, endpoint):
         path = request.httprequest.path
-        if path.startswith("/web/login") and request.httprequest.values.get("remote_key"):
+        if path.startswith("/web/login") and request.httprequest.values.get(
+            "remote_key"
+        ):
             key = request.httprequest.values["remote_key"]
             user = (
                 request.env["res.users"].sudo().search([("remote_login_key", "=", key)])
